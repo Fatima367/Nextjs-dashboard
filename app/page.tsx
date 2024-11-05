@@ -4,7 +4,8 @@ import Link from 'next/link';
 import styles from '@/app/ui/home.module.css';
 import { lusitana } from './ui/font';
 import Image from 'next/image';
-import { Cart } from './cart/[user]';
+import { sql } from '@vercel/postgres';
+import { JSX } from 'react';
 
 export default function Page() {
   return (
@@ -49,7 +50,21 @@ export default function Page() {
       </div>
     </main>
   );
+}
+export const Cart = async function ({
+  params
+} : {
+  params: { user: string }
+}): Promise<JSX.Element> {
+  const { rows } = await sql`SELECT * from CARTS where user_id=${params.user}`;
+
+  return (
+    <div>
+      {rows.map((row) => (
+        <div key={row.id}>
+          {row.id} - {row.quantity}
+        </div>
+      ))}
+    </div>
+  );
 };
-<Cart params={{
-  user: ''
-}} />
