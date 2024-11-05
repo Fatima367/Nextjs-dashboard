@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
     ppr: false,
   },
   /* config options here */
-  eslint: {
+  eslint:{
     ignoreDuringBuilds: true,
-  },
+},
 };
 
 export default nextConfig;
