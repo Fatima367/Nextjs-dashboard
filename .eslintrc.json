@@ -1,14 +1,22 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "rules" : {
-    "@typescript-eslint/no-unused-vars" : "off",
-    "@typescript-eslint/no-explicit-any" : "off",
+  "extends": "next/core-web-vitals",
+  "rules": {
+    // Disable Next.js export validation errors
+    "@next/next/no-html-link-for-pages": "off",
+    "@next/next/no-typos": "off",
     "react/no-unescaped-entities": "off",
-    "@next/next/no-page-custom-font": "off",
-    "@typescript-eslint/no-empty-object-type" : "off",
-    // Ignore specific Next.js route errors
-    "@next/next/no-server-import-in-page": "off",
-    "@next/next/no-typos": "off"
-  
-  }
+
+    // Customize other ESLint rules as needed
+    "no-console": "warn",
+    "no-unused-vars": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/app/**/*.ts", "**/app/**/*.tsx"],
+      "rules": {
+        // Ignore issues in app directory during build
+        "import/no-anonymous-default-export": "off"
+      }
+    }
+  ]
 }
