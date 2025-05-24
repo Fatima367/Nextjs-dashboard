@@ -17,6 +17,10 @@ export async function authenticate(
       switch (error.type) {
         case 'CredentialsSignin':
           return 'Invalid credentials.';
+        case 'AccessDenied':
+          return 'Access Denied..'
+        case 'UnknownAction':
+          return 'Unknown Error'
         default:
           return 'Something went wrong.';
       }

@@ -16,14 +16,14 @@ import { useActionState } from 'react';
 export default function EditInvoiceForm({
   invoice,
   customers,
-}: {
+}: Readonly<{
   invoice: InvoiceForm;
   customers: CustomerField[];
-}) {
+}>) {
 
   const initialState: State = { message: null, errors: {} };
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
-  const [state, formAction] = useActionState(updateInvoiceWithId, initialState);
+  const [, formAction] = useActionState(updateInvoiceWithId, initialState);
 
   return (
     <form action={formAction}>

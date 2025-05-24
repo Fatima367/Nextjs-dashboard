@@ -15,7 +15,7 @@ export function CreateInvoice() {
   );
 }
 
-export function UpdateInvoice({ id }: { id: string }) {
+export function UpdateInvoice({ id }: Readonly<{ id: string }>) {
   return (
     <Link
     href={`/dashboard/invoices/${id}/edit`}
@@ -26,7 +26,7 @@ export function UpdateInvoice({ id }: { id: string }) {
   );
 }
 
-export function DeleteInvoice({ id }: { id: string }) {
+export function DeleteInvoice({ id }: Readonly<{ id: string }>) {
   
   const deleteInvoiceWithId = deleteInvoice.bind(null, id);
   

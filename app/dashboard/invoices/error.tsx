@@ -1,14 +1,12 @@
-'use client';
- 
+'use client'; 
 import { useEffect } from 'react';
- 
-export default function Error({
-  error,
-  reset,
-}: {
+
+type ErrorProps = Readonly<{
   error: Error & { digest?: string };
   reset: () => void;
-}) {
+}>;
+
+export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     // Optionally log the error to an error reporting service
     console.error(error);

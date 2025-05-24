@@ -12,12 +12,13 @@ export const metadata: Metadata = {
   title: 'Invoices',
 };
  
-export default async function Page( props : {
-    searchParams? : Promise <{
-        query : string;
-        page: string;
+export default async function Page( props: Readonly<{
+    searchParams?: Promise<{
+      query: string;
+      page: string;
     }>;
-}) {
+  }>
+) {
 
     const searchParams = await props.searchParams;
     const query = searchParams?.query || '';
