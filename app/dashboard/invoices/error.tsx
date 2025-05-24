@@ -6,7 +6,7 @@ type ErrorProps = Readonly<{
   reset: () => void;
 }>;
 
-export default function Error({ error, reset }: ErrorProps) {
+export default function CustomError({ error, reset }: ErrorProps) {
   useEffect(() => {
     // Optionally log the error to an error reporting service
     console.error(error);
