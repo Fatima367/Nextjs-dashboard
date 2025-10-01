@@ -1,6 +1,6 @@
-import bcrypt from 'bcrypt';
-import { db, VercelPoolClient } from '@vercel/postgres';
-import { invoices, customers, revenue, users } from '../lib/placeholder-data';
+import bcrypt from "bcrypt";
+import { db, VercelPoolClient } from "@vercel/postgres";
+import { invoices, customers, revenue, users } from "../lib/placeholder-data";
 
 async function seedUsers(client: VercelPoolClient) {
   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -21,7 +21,7 @@ async function seedUsers(client: VercelPoolClient) {
         VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
         ON CONFLICT (id) DO NOTHING;
       `;
-    }),
+    })
   );
 
   return insertedUsers;
@@ -46,8 +46,8 @@ async function seedInvoices(client: VercelPoolClient) {
         INSERT INTO invoices (customer_id, amount, status, date)
         VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
         ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
+      `
+    )
   );
 
   return insertedInvoices;
@@ -71,8 +71,8 @@ async function seedCustomers(client: VercelPoolClient) {
         INSERT INTO customers (id, name, email, image_url)
         VALUES (${customer.id}, ${customer.name}, ${customer.email}, ${customer.image_url})
         ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
+      `
+    )
   );
 
   return insertedCustomers;
@@ -92,8 +92,8 @@ async function seedRevenue(client: VercelPoolClient) {
         INSERT INTO revenue (month, revenue)
         VALUES (${rev.month}, ${rev.revenue})
         ON CONFLICT (month) DO NOTHING;
-      `,
-    ),
+      `
+    )
   );
 
   return insertedRevenue;
@@ -110,13 +110,27 @@ export async function GET() {
     await seedRevenue(client);
     await client.sql`COMMIT`;
 
-    return new Response(JSON.stringify({ message: 'Database seeded successfully' }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ message: "Database seeded successfully" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (error) {
+    // FIX: Use the 'error' variable that was caught and log or include its message.
+    console.error("Database Seeding Error:", error);
     await client.sql`ROLLBACK`;
-    return new Response(JSON.stringify({ error: onmessage }), { status: 500 });
+
+    // Check if error is an object with a message, otherwise use a generic message.
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "An unknown error occurred during database seeding.";
+
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+    });
   } finally {
     client.release();
   }
